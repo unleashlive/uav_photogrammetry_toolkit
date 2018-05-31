@@ -95,7 +95,7 @@ if __name__=='__main__':
     if config.getboolean("video_detection","blur_detect"):
         blur_detected = detect_blur(config)
         print "Blur found?:",blur_detected
-    if config.getboolean("video_detection","blur_correction"):
+    #if config.getboolean("video_detection","blur_correction"):
         
     #image extraction and correction
     if config.getboolean("image_correction","haze_detection"):
