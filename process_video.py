@@ -4,7 +4,7 @@ import ConfigParser
 from blur_detection.blur_detect import *
 from blur_detection.auto_canny import *
 from blur_detection.dft_inspect import *
-from videoExtractor.extractFrameAuto import *
+#from videoExtractor.extractFrameAuto import *
 
 def detect_blur(config):
     #detect_blur
@@ -48,6 +48,8 @@ def preform_dehazing(config):
     return
 
 def preform_image_extraction(config):
+    #subprocess.call(["python", "videoExtractor/extractFrameAuto.py", "-still", ConfigSectionMap(config,"image_extractor")['EXIF_file'], "-file", ConfigSectionMap(config,"video_input")['path'], "-n", ConfigSectionMap(config,"image_extractor")['n_frames']])
+    subprocess.call(["python", "videoExtractor/extractFrameAuto.py", "-still", "GOPR0578.jpg", "-file", "GP010567.mp4", "-n", "120"])
     #extract the images
     return
 
@@ -75,32 +77,34 @@ def ConfigSectionMap(Config,section):
             if dict1[option]==-1:
                 DebugPrint("skip:%s"%option)
         except:
-            print "exception on %s!"%option
+            print ("exception on %s!"%option)
             dict1[option]=None
     return dict1
 
 if __name__=='__main__':
     if len(sys.argv) < 2:
-        print "usage:process_video configuration_file.ini"
-        print "one ini per video file"
+        print ("usage:process_video configuration_file.ini")
+        print ("one ini per video file")
         exit(-1)
 
     config = ConfigParser.RawConfigParser()
     config.read(sys.argv[1])
     sections = config.sections()
-    print "Begining processing on:",ConfigSectionMap(config,"video_input")['path']
+    print ("Begining processing on:",ConfigSectionMap(config,"video_input")['path'])
+    preform_image_extraction(config)
 
     #blur detection first
     blur_detected = False
     if config.getboolean("video_detection","blur_detect"):
         blur_detected = detect_blur(config)
-        print "Blur found?:",blur_detected
+        print ("Blur found?:",blur_detected)
     #if config.getboolean("video_detection","blur_correction"):
-        
+        #to do
+        #print ("to do")
     #image extraction and correction
     if config.getboolean("image_correction","haze_detection"):
         #do extraction,detection,correction
         #to do
-        print "to do"
+        print ("to do")
     #Do the Feature Detection here
     feature_detection(config)

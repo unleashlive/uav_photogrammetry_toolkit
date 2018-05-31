@@ -100,6 +100,9 @@ def processVideoThreaded(video,lower,upper,threshold):
     #print results
     blurred = results.count(True)
     cap.release()
+    #blurred_total = float(blurred)/total*100
+    if total == 0:
+        return False
     blurred_total = float(blurred)/total*100
     #print total,blurred,blurred_total
     if blurred_total > threshold:
